@@ -16,6 +16,7 @@ declare module '@mui/material/styles/createPalette' {
 			'orange-500': React.CSSProperties['color'],
 			'green-100': React.CSSProperties['color'],
 			'green-200': React.CSSProperties['color'],
+			'green-300': React.CSSProperties['color'],
 		}
 	}
 }
@@ -25,8 +26,9 @@ const theme = createTheme({
 	palette: {
 		geogame: {
 			'black-100': '#252525',
-			'green-100': '#B9EBE2',
-			"green-200": '#82D0C2',
+			'green-100': '#ECFFFC',
+			"green-200": '#B9EBE2',
+			"green-300": '#82D0C2',
 			"orange-500": '#FF7544'
 		}
 	},
@@ -35,7 +37,8 @@ const theme = createTheme({
 		allVariants: {
 			color: '#252525',
 			lineHeight: 1.5,
-			fontSize: '1rem'
+			fontSize: '1rem',
+			textDecoration: 'none',
 		},
 		h1: {
 			fontWeight: 700,
@@ -44,11 +47,17 @@ const theme = createTheme({
 		button: {
 			fontWeight: 600,
 			color: '#FFF',
-			fontSize: '1.5rem'
+			fontSize: '1.5rem',
+			textDecoration: 'none',
 		},
 		caption: {
 			fontWeight: 600,
-			fontSize: '1.5rem'
+			fontSize: '1.5rem',
+			textDecoration: 'none',
+		},
+		h2: {
+			fontWeight: 600,
+			fontSize: '2rem'
 		}
 	 
 	}
