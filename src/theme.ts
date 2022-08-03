@@ -36,7 +36,7 @@ const theme = createTheme({
 		fontFamily: "'Dosis', sans-serif",
 		allVariants: {
 			color: '#252525',
-			lineHeight: 1.5,
+			lineHeight: 1.3,
 			fontSize: '1rem',
 			textDecoration: 'none',
 		},
@@ -59,7 +59,17 @@ const theme = createTheme({
 			fontWeight: 600,
 			fontSize: '2rem'
 		}
-	 
+	},
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					width: '100%',
+					color: '#FFF',
+					background: '#FF7544'
+				}
+			}
+		}
 	}
 })
 

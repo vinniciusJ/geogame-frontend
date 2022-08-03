@@ -13,6 +13,7 @@ const Container: React.FC <Props> = ({ children }) => {
                 background: theme.palette.geogame['green-100'],
                 minHeight: '100vh',
                 width: '100vw',
+                backgroundSize: '100%',
                 backgroundRepeat: 'no-repeat',
                 backgroundFixed: 'fixed',
                 backgroundImage: "url('/background.svg')",
