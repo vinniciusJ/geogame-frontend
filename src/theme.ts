@@ -66,7 +66,8 @@ const theme = createTheme({
 				root: {
 					width: '100%',
 					color: '#FFF',
-					background: '#FF7544'
+					background: '#FF7544',
+					borderRadius: '8px'
 				}
 			}
 		}
