@@ -9,6 +9,7 @@ import Head from 'next/head'
 import Modal, { useModal } from '../src/components/Modal'
 import useUser from '../src/hooks/useUser'
 import { useRouter } from 'next/router'
+import Container from '../src/components/Container'
 
 interface IUser{
 	user: string
@@ -38,7 +39,7 @@ const Home = () => {
 	}, [])
 
 	return (
-		<>
+		<Container>
 			<Head>
 				<title>Geogame</title>
 			</Head>
@@ -151,7 +152,7 @@ const Home = () => {
 						
 				</form>
 			</Modal>
-		</>
+		</Container>
 	)
 }
 

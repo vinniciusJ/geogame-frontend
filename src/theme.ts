@@ -9,6 +9,9 @@ declare module '@mui/material/styles/createPalette' {
 			'orange-800': React.CSSProperties['color'],
 			'green-100': React.CSSProperties['color'],
 			'green-200': React.CSSProperties['color'],
+			'green-300': React.CSSProperties['color'],
+			'green-500': React.CSSProperties['color'],
+			'green-700': React.CSSProperties['color'],
 		}
 	}
 	interface PaletteOptions {
@@ -19,6 +22,8 @@ declare module '@mui/material/styles/createPalette' {
 			'green-100': React.CSSProperties['color'],
 			'green-200': React.CSSProperties['color'],
 			'green-300': React.CSSProperties['color'],
+			'green-500': React.CSSProperties['color'],
+			'green-700': React.CSSProperties['color'],
 		}
 	}
 }
@@ -31,6 +36,8 @@ const theme = createTheme({
 			'green-100': '#ECFFFC',
 			"green-200": '#B9EBE2',
 			"green-300": '#82D0C2',
+			'green-500': '#36CC73',
+			'green-700': '#54A99A',
 			"orange-500": '#FF7544',
 			"orange-800": '#E14D1E'
 		}
