@@ -1,6 +1,7 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
-import { Portal, Modal as ModalContainer, Box } from '@mui/material'
+import React, { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react'
+import { Portal, Modal as ModalContainer, Box, Dialog, DialogContent, Stack, IconButton } from '@mui/material'
 
+import CloseIcon from '@mui/icons-material/Close';
 interface ModalMethods{
     openModal: () => void
     closeModal: () => void
@@ -24,26 +25,42 @@ const Modal: React.ForwardRefRenderFunction<ModalMethods, Props> = ({ children }
 
     return (
         <Portal container={document.body}>
-            <ModalContainer
+            <Dialog
                 open={isOpened}
                 onClose={closeModal}
             >
-                <Box
-                    sx={{
-                        w: '100%', 
-                        h: '100%',
+                <DialogContent
+                    sx={ theme => ({
+                        position: 'relative',
+                        minWidth: `${theme.spacing(54)} !important`,
+                        minHeight: `${theme.spacing(33)} !important`,
                         backgroundSize: '100%',
                         backgroundRepeat: 'no-repeat',
                         backgroundFixed: 'fixed',
                         backgroundImage: "url('/reverse-bg.svg')",
-                        backgroundPosition: '0% 0%'
-                    }}
+                        backgroundPosition: '0% 0%',
+                        backgroundColor: theme.palette.geogame['green-100']
+                    })}
                 >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            right: 0,
+                        }}
+                    >
+                        <IconButton onClick={closeModal}>
+                            <CloseIcon sx={{ fill: '#252525' }}/>
+                        </IconButton>
+                    </Box>
+
                     { children }
-                </Box>
-            </ModalContainer>
+                </DialogContent>
+            </Dialog>
         </Portal>
     )
 }
+
+export const useModal = () => useRef<ModalMethods>(null)
 
 export default forwardRef(Modal)

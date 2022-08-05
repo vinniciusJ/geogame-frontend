@@ -6,6 +6,7 @@ declare module '@mui/material/styles/createPalette' {
 		geogame: {
 			'black-100': React.CSSProperties['color'],
 			'orange-500': React.CSSProperties['color'],
+			'orange-800': React.CSSProperties['color'],
 			'green-100': React.CSSProperties['color'],
 			'green-200': React.CSSProperties['color'],
 		}
@@ -14,6 +15,7 @@ declare module '@mui/material/styles/createPalette' {
 		geogame: {
 			'black-100': React.CSSProperties['color'],
 			'orange-500': React.CSSProperties['color'],
+			'orange-800': React.CSSProperties['color'],
 			'green-100': React.CSSProperties['color'],
 			'green-200': React.CSSProperties['color'],
 			'green-300': React.CSSProperties['color'],
@@ -29,7 +31,8 @@ const theme = createTheme({
 			'green-100': '#ECFFFC',
 			"green-200": '#B9EBE2',
 			"green-300": '#82D0C2',
-			"orange-500": '#FF7544'
+			"orange-500": '#FF7544',
+			"orange-800": '#E14D1E'
 		}
 	},
 	typography: {
@@ -67,7 +70,31 @@ const theme = createTheme({
 					width: '100%',
 					color: '#FFF',
 					background: '#FF7544',
-					borderRadius: '8px'
+					borderRadius: '8px',
+					textTransform: 'none',
+					'&:hover': {
+						background: '#F18E6B'
+					}
+				}
+			}
+		},
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					'& fieldset': {
+						border: 'solid 1px #252525'
+					},
+					'& .Mui-focused fieldset': {
+						border: 'solid 1px #82D0C2 !important',	
+					},
+					'& .Mui-error fieldset': {
+						border: 'solid 1px #E14D1E !important',	
+					},
+					'& .MuiFormHelperText-root': {
+						color: '#E14D1E',
+						marginLeft: 0,
+						fontSize: '1rem !important'
+					}
 				}
 			}
 		}
