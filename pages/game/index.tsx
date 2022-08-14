@@ -1,14 +1,23 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 
 import ClockIcon from '@mui/icons-material/AccessTime'
 import Head from 'next/head'
 
 import { Typography , Box, Stack, useTheme} from '@mui/material'
-import { CoordinatesBox, GameSidebar, TimeBox } from './styles'
+import { CoordinatesBox, GameSidebar, StatusBox, TimeBox } from './styles'
+import useGame from '../../src/hooks/useGame'
+import formatTime from '../../src/utils/formatTime'
 
 const Game: React.FC = () => {
     const theme = useTheme()
+    const { currentCoordinate, gameStatus, realTime, startGame } = useGame()
+
+    useEffect(() => {
+        startGame()
+    }, [])
+
     return (
         <>
             <Head>
@@ -30,7 +39,7 @@ const Game: React.FC = () => {
                     </Typography>
 
                     <CoordinatesBox>
-                        10°S : 120°O
+                        { currentCoordinate }
                     </CoordinatesBox>
                 </Stack>
 
@@ -48,23 +57,17 @@ const Game: React.FC = () => {
                         gap={1.75}
                         mb={6}
                     >
-                        {  Array.from({ length: 10 }).map((element, index) => (
-                            <Box 
-                                key={index}
-                                sx={theme => ({
-                                    width: theme.spacing(3),
-                                    height: theme.spacing(3),
-                                    background: theme.palette.geogame['green-500'],
-                                    borderRadius: '50%'
-                                })}
+                        { gameStatus.map(status => (
+                            <StatusBox 
+                                status={status.status}
+                                key={status.round}
                             />
                         )) }
                     </Stack>
 
                     <TimeBox>
                         <ClockIcon />
-
-                        02:45
+                        { formatTime(realTime) }
                     </TimeBox>
                 </Box>   
             </GameSidebar>

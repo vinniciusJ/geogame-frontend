@@ -5,6 +5,7 @@ declare module '@mui/material/styles/createPalette' {
 	interface Palette {
 		geogame: {
 			'black-100': React.CSSProperties['color'],
+			'gray-100': React.CSSProperties['color']
 			'orange-500': React.CSSProperties['color'],
 			'orange-800': React.CSSProperties['color'],
 			'green-100': React.CSSProperties['color'],
@@ -17,6 +18,7 @@ declare module '@mui/material/styles/createPalette' {
 	interface PaletteOptions {
 		geogame: {
 			'black-100': React.CSSProperties['color'],
+			'gray-100': React.CSSProperties['color'],
 			'orange-500': React.CSSProperties['color'],
 			'orange-800': React.CSSProperties['color'],
 			'green-100': React.CSSProperties['color'],
@@ -33,6 +35,7 @@ const theme = createTheme({
 	palette: {
 		geogame: {
 			'black-100': '#252525',
+			'gray-100': '#A8C6C0',
 			'green-100': '#ECFFFC',
 			"green-200": '#B9EBE2',
 			"green-300": '#82D0C2',

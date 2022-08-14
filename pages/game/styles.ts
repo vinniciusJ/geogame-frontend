@@ -3,6 +3,10 @@ import { styled } from '@mui/system'
 import Stack, { StackProps } from '@mui/material/Stack'
 import Box, { BoxProps } from '@mui/material/Box'
 
+interface StatusBoxProps extends BoxProps{
+	status: 'right' | 'wrong' | null
+}
+
 export const GameSidebar = styled(Stack)<StackProps>(({ theme }) => ({
 	position: 'absolute',
 	top: 0,
@@ -36,4 +40,11 @@ export const TimeBox = styled(Stack)<StackProps>(({ theme }) => ({
 	width: '100%',
 	padding: `${theme.spacing(1.5)} 0`,
 	borderRadius: theme.spacing(.5)
+}))
+
+export const StatusBox = styled(Box)<StatusBoxProps>(({ theme, status }) => ({
+	width: theme.spacing(3),
+	height: theme.spacing(3),
+	background: theme.palette.geogame[(status == 'right' ? 'green-500' : (status ? 'orange-800' : 'gray-100'))],
+	borderRadius: '50%'
 }))
