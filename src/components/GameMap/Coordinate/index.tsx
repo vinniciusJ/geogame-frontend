@@ -7,7 +7,7 @@ interface Props{
 }
 
 const Coordinate: React.FC<Props> = ({  coord, path }) => {
-    const { sortedCoordinates } = useGame()
+    const { sortedCoordinates, currentCoordinate, playRound } = useGame()
 
     const [ coordinate, setCoordinate ] = useState('')
 
@@ -15,7 +15,6 @@ const Coordinate: React.FC<Props> = ({  coord, path }) => {
         setCoordinate(coord)
     }, [ coord ])
 
-    // console.log(sortedCoordinates.includes(coord))
     if(!sortedCoordinates.includes(coordinate)){
         return null
     }
@@ -30,6 +29,7 @@ const Coordinate: React.FC<Props> = ({  coord, path }) => {
                 fill: '#ff7544',
                 fillOpacity: 1
             }}
+            onClick={() => playRound(coordinate)}
         />
     )
 }

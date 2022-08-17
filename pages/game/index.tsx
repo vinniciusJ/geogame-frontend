@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { startTransition, Suspense, useEffect } from 'react'
+import React, { startTransition, Suspense, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 
 import ClockIcon from '@mui/icons-material/AccessTime'
@@ -19,12 +19,13 @@ import dynamic from 'next/dynamic'
 
 const Game: React.FC = (props) => {
     const theme = useTheme()
+
     const { currentCoordinate, gameStatus, realTime, startGame } = useGame()
 
+    const time = useMemo(() => realTime, [ realTime ])
+
     useEffect(() => {
-        startTransition(() => {
-            startGame()
-        })
+        startGame()
     }, [])
 
     return (
@@ -74,7 +75,7 @@ const Game: React.FC = (props) => {
 
                     <TimeBox>
                         <ClockIcon />
-                        { formatTime(realTime) }
+                        { formatTime(time) }
                     </TimeBox>
                 </Box>   
             </GameSidebar>

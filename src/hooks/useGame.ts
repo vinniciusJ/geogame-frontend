@@ -3,41 +3,47 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { currentCoordinate as currentCoordinateAtom, game as gameAtom, currentRound as currentRoundAtom, sortedCoordinates as sortedCoordinatesAtom } from '../context'
 import generateCoordinate from '../utils/generateCoordinate'
+import generateRandomNumber from '../utils/generateRandomNumber'
 
 
 const useGame = () => {
-    const [ gameStatus, setGameStatus ] = useRecoilState(gameAtom)
-    const [ currentCoordinate, setCurrentCoordinate] = useRecoilState(currentCoordinateAtom)
-    const [ currentRound, setCurrentRound ] = useRecoilState(currentRoundAtom)
-    const [ sortedCoordinates, setSortedCoordinates ] = useRecoilState(sortedCoordinatesAtom)
+    const [gameStatus, setGameStatus] = useRecoilState(gameAtom)
+    const [currentCoordinate, setCurrentCoordinate] = useRecoilState(currentCoordinateAtom)
+    const [currentRound, setCurrentRound] = useRecoilState(currentRoundAtom)
+    const [sortedCoordinates, setSortedCoordinates] = useRecoilState(sortedCoordinatesAtom)
 
-    const [ time, setTime ] = useState(0)
+    const [time, setTime] = useState(0)
+    const [isTimerRunning, setIsTimerRunning] = useState(true)
 
-    const timerRef = useRef<NodeJS.Timer | null>()
+    useEffect(() => {
+        let interval: NodeJS.Timer = setInterval(() => {
+            setTime((prevTime) => prevTime + 1)
+        }, 1000)
 
-    
+        if (!isTimerRunning) clearInterval(interval) 
+
+        return () => clearInterval(interval)
+
+    }, [isTimerRunning])
+
 
     const startGame = useCallback(() => {
         sortRandomCoordinates()
-
-        timerRef.current = setInterval(() => {
-            setTime(currentTime => currentTime + 1)
-        }, 1000)
     }, [])
 
     const stopGame = useCallback(() => {
         setCurrentRound(1)
         setSortedCoordinates([])
 
-        clearInterval(timerRef.current as NodeJS.Timer)
+        setIsTimerRunning(false)
     }, [])
 
     const playRound = useCallback((coordinate: string) => {
         const isRight = currentCoordinate.includes(coordinate)
 
         setGameStatus(currentGameStatus => currentGameStatus.map((status) => {
-            if(currentRound == status.round){
-                if(isRight){
+            if (currentRound == status.round) {
+                if (isRight) {
                     return { ...status, status: 'right' }
                 }
 
@@ -49,13 +55,16 @@ const useGame = () => {
 
         sortRandomCoordinates()
         setCurrentRound(round => round + 1)
-        
-    }, [ currentCoordinate, currentRound ])
+
+    }, [currentCoordinate, currentRound])
 
     const sortRandomCoordinates = useCallback(() => {
-        setSortedCoordinates(Array.from({ length: 10 }).map(() => generateCoordinate()))
+        const newCoordinates = Array.from({ length: 10 }).map(() => generateCoordinate())
+
+        setSortedCoordinates(newCoordinates)
+        setCurrentCoordinate(newCoordinates[generateRandomNumber(0, sortedCoordinates.length - 1)])
     }, [])
-    
+
     return {
         stopGame,
         startGame,
@@ -64,7 +73,7 @@ const useGame = () => {
         sortedCoordinates,
         currentCoordinate,
         sortRandomCoordinates,
-        verifyCoordinate: playRound
+        playRound
     }
 }
 

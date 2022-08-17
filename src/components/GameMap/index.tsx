@@ -4,13 +4,7 @@ import coordinatesPoints from './data.json'
 import Coordinate from './Coordinate'
 import useGame from '../../hooks/useGame'
 
-const GameMap: React.FC = () => {
-    const { sortedCoordinates } = useGame()
-
-    const coordinates = useMemo(() => {
-        return coordinatesPoints.filter(point => sortedCoordinates.some(coordinate => coordinate == point.coord))
-    }, [ sortedCoordinates ])
-    
+const GameMap: React.FC = () => {    
     return (
         <svg
             width="1100"
@@ -2640,11 +2634,7 @@ const GameMap: React.FC = () => {
                     <g
                         id="Pontos"
                         style={{ display: 'inline' }}
-                    >
-                        {/* { coordinates.map(point => (
-                            <Coordinate {...point} key={point.coord}/>
-                        )) } */}
-
+                    > 
                         <Coordinate
                             coord='0°:0°'
                             path='m 561.316,270.895 c 0,1.306 -0.258,2.599 -0.757,3.805 -0.5,1.207 -1.232,2.303 -2.156,3.226 -0.923,0.924 -2.019,1.656 -3.225,2.156 -1.207,0.499 -2.5,0.756 -3.805,0.756 -1.306,0 -2.599,-0.257 -3.805,-0.756 -1.207,-0.5 -2.303,-1.232 -3.226,-2.156 -0.923,-0.923 -1.656,-2.019 -2.155,-3.226 -0.5,-1.206 -0.757,-2.499 -0.757,-3.805 0,-1.305 0.257,-2.598 0.757,-3.805 0.499,-1.206 1.232,-2.302 2.155,-3.225 0.923,-0.924 2.019,-1.656 3.226,-2.156 1.206,-0.499 2.499,-0.757 3.805,-0.757 1.305,0 2.598,0.258 3.805,0.757 1.206,0.5 2.302,1.232 3.225,2.156 0.924,0.923 1.656,2.019 2.156,3.225 0.499,1.207 0.757,2.5 0.757,3.805 z'
