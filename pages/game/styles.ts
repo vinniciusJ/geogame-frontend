@@ -1,4 +1,4 @@
-import { styled } from '@mui/system'
+import { styled } from '@mui/material'
 
 import Stack, { StackProps } from '@mui/material/Stack'
 import Box, { BoxProps } from '@mui/material/Box'
@@ -47,4 +47,11 @@ export const StatusBox = styled(Box)<StatusBoxProps>(({ theme, status }) => ({
 	height: theme.spacing(3),
 	background: theme.palette.geogame[(status == 'right' ? 'green-500' : (status ? 'orange-800' : 'gray-100'))],
 	borderRadius: '50%'
+}))
+
+export const GameContainer = styled(Stack)<StackProps>(({ theme }) => ({
+	position: 'absolute',
+	top: '50%',
+	left: `calc(50% + ${theme.spacing(15)})`,
+	transform: `translate(-50%, -50%)`
 }))

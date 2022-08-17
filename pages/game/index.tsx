@@ -1,28 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { startTransition, Suspense, useEffect } from 'react'
 import Image from 'next/image'
 
 import ClockIcon from '@mui/icons-material/AccessTime'
 import Head from 'next/head'
 
 import { Typography , Box, Stack, useTheme} from '@mui/material'
-import { CoordinatesBox, GameSidebar, StatusBox, TimeBox } from './styles'
+import { CoordinatesBox, GameContainer, GameSidebar, StatusBox, TimeBox } from './styles'
 import useGame from '../../src/hooks/useGame'
 import formatTime from '../../src/utils/formatTime'
+import GameMap from '../../src/components/GameMap'
+import axios from 'axios'
+import dynamic from 'next/dynamic'
 
-const Game: React.FC = () => {
+// const GameMap = dynamic(() => import('../../src/components/GameMap'), {
+//     suspense: true
+// })
+
+const Game: React.FC = (props) => {
     const theme = useTheme()
     const { currentCoordinate, gameStatus, realTime, startGame } = useGame()
 
     useEffect(() => {
-        startGame()
+        startTransition(() => {
+            startGame()
+        })
     }, [])
 
     return (
         <>
-            <Head>
-                <title>Geogame</title>
-            </Head>
+           
             <GameSidebar>
                 <Stack justifyContent='center' alignItems='center'>
                     <Box mb={6}>
@@ -71,8 +78,14 @@ const Game: React.FC = () => {
                     </TimeBox>
                 </Box>   
             </GameSidebar>
+            <GameContainer>
+            
+                <GameMap />
+       
+            </GameContainer>
         </>
     )
 }
+
 
 export default Game

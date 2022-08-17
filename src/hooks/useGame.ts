@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { currentCoordinate as currentCoordinateAtom, game as gameAtom, currentRound as currentRoundAtom } from '../context'
+import { currentCoordinate as currentCoordinateAtom, game as gameAtom, currentRound as currentRoundAtom, sortedCoordinates as sortedCoordinatesAtom } from '../context'
 import generateCoordinate from '../utils/generateCoordinate'
 
 
@@ -9,13 +9,16 @@ const useGame = () => {
     const [ gameStatus, setGameStatus ] = useRecoilState(gameAtom)
     const [ currentCoordinate, setCurrentCoordinate] = useRecoilState(currentCoordinateAtom)
     const [ currentRound, setCurrentRound ] = useRecoilState(currentRoundAtom)
+    const [ sortedCoordinates, setSortedCoordinates ] = useRecoilState(sortedCoordinatesAtom)
 
     const [ time, setTime ] = useState(0)
 
     const timerRef = useRef<NodeJS.Timer | null>()
 
+    
+
     const startGame = useCallback(() => {
-        generateNewCoordinate()
+        sortRandomCoordinates()
 
         timerRef.current = setInterval(() => {
             setTime(currentTime => currentTime + 1)
@@ -23,6 +26,9 @@ const useGame = () => {
     }, [])
 
     const stopGame = useCallback(() => {
+        setCurrentRound(1)
+        setSortedCoordinates([])
+
         clearInterval(timerRef.current as NodeJS.Timer)
     }, [])
 
@@ -41,13 +47,13 @@ const useGame = () => {
             return { ...status }
         }))
 
-        generateNewCoordinate()
+        sortRandomCoordinates()
         setCurrentRound(round => round + 1)
         
     }, [ currentCoordinate, currentRound ])
 
-    const generateNewCoordinate = useCallback(() => {
-        setCurrentCoordinate(generateCoordinate())
+    const sortRandomCoordinates = useCallback(() => {
+        setSortedCoordinates(Array.from({ length: 10 }).map(() => generateCoordinate()))
     }, [])
     
     return {
@@ -55,8 +61,9 @@ const useGame = () => {
         startGame,
         gameStatus,
         realTime: time,
+        sortedCoordinates,
         currentCoordinate,
-        generateNewCoordinate,
+        sortRandomCoordinates,
         verifyCoordinate: playRound
     }
 }
