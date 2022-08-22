@@ -10,7 +10,7 @@ export const user = atom<string>({
 export const game = atom<IGame[]>({
 	key: 'game',
 	default: Array.from({ length: 10 }).map((_, index) => ({ 
-		round: index + 1,
+		round: index,
 		status: null
 	}))
 })
@@ -27,5 +27,15 @@ export const sortedCoordinates = atom<string[]>({
 
 export const currentRound = atom<number>({
 	key: 'currentRound',
-	default: 1
+	default: 0
+})
+
+export const time = atom<number>({
+	key: 'time',
+	default: 0
+})
+
+export const timer = atom<NodeJS.Timer | null>({
+	key: 'timer',
+	default: null
 })

@@ -1,4 +1,6 @@
-import React, { memo, useEffect, useState } from 'react'
+
+import { useTheme } from '@mui/material'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import useGame from '../../../hooks/useGame'
 
 interface Props{
@@ -8,8 +10,9 @@ interface Props{
 
 const Coordinate: React.FC<Props> = ({  coord, path }) => {
     const { sortedCoordinates, currentCoordinate, playRound } = useGame()
-
     const [ coordinate, setCoordinate ] = useState('')
+
+    const theme = useTheme()
 
     useEffect(() => {
         setCoordinate(coord)
@@ -21,14 +24,11 @@ const Coordinate: React.FC<Props> = ({  coord, path }) => {
 
     return (
         <path
-            id={coord}
             d={path}
-            fill="#ef3535"
+            id={coord}
+            fill={theme.palette.geogame['orange-500']}
+            fillOpacity={1}
             className="points"
-            style={{
-                fill: '#ff7544',
-                fillOpacity: 1
-            }}
             onClick={() => playRound(coordinate)}
         />
     )

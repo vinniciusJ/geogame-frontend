@@ -55,3 +55,9 @@ export const GameContainer = styled(Stack)<StackProps>(({ theme }) => ({
 	left: `calc(50% + ${theme.spacing(15)})`,
 	transform: `translate(-50%, -50%)`
 }))
+
+export const WindRose = styled(Box)<BoxProps>(({ theme }) => ({
+	position: 'absolute',
+	right: theme.spacing(3),
+	bottom: theme.spacing(3)
+}))

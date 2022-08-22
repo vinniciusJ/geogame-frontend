@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { currentCoordinate as currentCoordinateAtom, game as gameAtom, currentRound as currentRoundAtom, sortedCoordinates as sortedCoordinatesAtom } from '../context'
+import { IGame } from '../interfaces/IGame'
 import generateCoordinate from '../utils/generateCoordinate'
 import generateRandomNumber from '../utils/generateRandomNumber'
 
@@ -11,31 +12,36 @@ const useGame = () => {
     const [currentCoordinate, setCurrentCoordinate] = useRecoilState(currentCoordinateAtom)
     const [currentRound, setCurrentRound] = useRecoilState(currentRoundAtom)
     const [sortedCoordinates, setSortedCoordinates] = useRecoilState(sortedCoordinatesAtom)
+    
+    const [ time, setTime ] = useState(0)
 
-    const [time, setTime] = useState(0)
-    const [isTimerRunning, setIsTimerRunning] = useState(true)
+    const isGameFinished = useMemo(() => gameStatus.every(data => data.status), [ gameStatus ])
+    const hitPoints = useMemo(() => gameStatus.filter(status => status.status === 'right').length, [ gameStatus ]) 
+    
 
     useEffect(() => {
-        let interval: NodeJS.Timer = setInterval(() => {
-            setTime((prevTime) => prevTime + 1)
-        }, 1000)
+        let interval: NodeJS.Timeout | null = null
 
-        if (!isTimerRunning) clearInterval(interval) 
+        if(!isGameFinished){
+            interval = setInterval(() => {
+                setTime(time => time + 1)
+            }, 1000)
+        }
+        else{
+            clearInterval(interval as unknown as NodeJS.Timeout)
+        }
 
-        return () => clearInterval(interval)
 
-    }, [isTimerRunning])
-
+        return () =>  clearInterval(interval as unknown as NodeJS.Timeout)
+    }, [ isGameFinished ])
 
     const startGame = useCallback(() => {
         sortRandomCoordinates()
     }, [])
 
     const stopGame = useCallback(() => {
-        setCurrentRound(1)
+        setCurrentRound(0)
         setSortedCoordinates([])
-
-        setIsTimerRunning(false)
     }, [])
 
     const playRound = useCallback((coordinate: string) => {
@@ -53,6 +59,10 @@ const useGame = () => {
             return { ...status }
         }))
 
+        if(currentRound === 9){
+            return stopGame()
+        }
+
         sortRandomCoordinates()
         setCurrentRound(round => round + 1)
 
@@ -65,12 +75,15 @@ const useGame = () => {
         setCurrentCoordinate(newCoordinates[generateRandomNumber(0, sortedCoordinates.length - 1)])
     }, [])
 
-    return {
+    return {    
+        time,
         stopGame,
         startGame,
+        hitPoints,
         gameStatus,
-        realTime: time,
+        isGameFinished,
         sortedCoordinates,
+        currentRound,
         currentCoordinate,
         sortRandomCoordinates,
         playRound

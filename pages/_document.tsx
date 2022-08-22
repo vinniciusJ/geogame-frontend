@@ -12,6 +12,8 @@ export default class MyDocument extends Document<any> {
 					<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={true.toString()} />
 					<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500600700&family=Roboto:wght@400700&display=swap" rel="stylesheet" />
 
+					<link rel="icon" type="image/svg+xml" href="/icon-logo.svg" />
+
 					<meta name="emotion-insertion-point" content="" />
 
 					{this.props.emotionStyleTags}
