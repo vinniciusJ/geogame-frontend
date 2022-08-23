@@ -9,10 +9,7 @@ export const user = atom<string>({
 
 export const game = atom<IGame[]>({
 	key: 'game',
-	default: Array.from({ length: 10 }).map((_, index) => ({ 
-		round: index,
-		status: null
-	}))
+	default: []
 })
 
 export const currentCoordinate = atom<string>({

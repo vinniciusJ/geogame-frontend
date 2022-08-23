@@ -2,6 +2,9 @@ import { styled } from '@mui/material'
 
 import Stack, { StackProps } from '@mui/material/Stack'
 import Box, { BoxProps } from '@mui/material/Box'
+import Typography, { TypographyProps } from '@mui/material/Typography'
+import Button, { ButtonProps } from '@mui/material/Button'
+
 
 interface StatusBoxProps extends BoxProps{
 	status: 'right' | 'wrong' | null
@@ -60,4 +63,26 @@ export const WindRose = styled(Box)<BoxProps>(({ theme }) => ({
 	position: 'absolute',
 	right: theme.spacing(3),
 	bottom: theme.spacing(3)
+}))
+
+export const CongratulationsTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
+	fontWeight: 700,
+	textAlign: 'center',
+	fontSize: theme.spacing(5),
+	marginBottom: theme.spacing(3)
+}))
+
+export const ModalButton = styled(Button)<ButtonProps>(({ theme }) => ({
+	fontSize: theme.spacing(2),
+	textTransform: 'uppercase',	
+	'&.go-back': {
+		background: 'none',
+		color: theme.palette.geogame['orange-500'],
+		border: `1px solid ${theme.palette.geogame['orange-500']}`,
+		'&:hover': {
+			opacity: .8,
+			background: 'none',
+		}
+	}
+	
 }))

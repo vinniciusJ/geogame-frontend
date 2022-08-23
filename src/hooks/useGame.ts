@@ -14,7 +14,7 @@ const useGame = () => {
     const [sortedCoordinates, setSortedCoordinates] = useRecoilState(sortedCoordinatesAtom)
     
     const [ time, setTime ] = useState(0)
-
+   
     const isGameFinished = useMemo(() => gameStatus.every(data => data.status), [ gameStatus ])
     const hitPoints = useMemo(() => gameStatus.filter(status => status.status === 'right').length, [ gameStatus ]) 
     
@@ -36,12 +36,30 @@ const useGame = () => {
     }, [ isGameFinished ])
 
     const startGame = useCallback(() => {
+        setGameStatus(Array.from({ length: 10 }).map((_, index) => ({ 
+            round: index,
+            status: null
+        })))
+        
         sortRandomCoordinates()
     }, [])
 
     const stopGame = useCallback(() => {
+        setTime(0)
         setCurrentRound(0)
+        
         setSortedCoordinates([])
+    }, [])
+
+    const restartGame = useCallback(() => {
+        setTime(0)
+        sortRandomCoordinates()
+
+        setGameStatus(Array.from({ length: 10 }).map((_, index) => ({ 
+            round: index,
+            status: null
+        })))
+
     }, [])
 
     const playRound = useCallback((coordinate: string) => {
@@ -60,6 +78,7 @@ const useGame = () => {
         }))
 
         if(currentRound === 9){
+            console.log('oi')
             return stopGame()
         }
 
@@ -79,6 +98,7 @@ const useGame = () => {
         time,
         stopGame,
         startGame,
+        restartGame,
         hitPoints,
         gameStatus,
         isGameFinished,

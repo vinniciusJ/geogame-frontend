@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 
 import ClockIcon from '@mui/icons-material/AccessTime'
 import Head from 'next/head'
 
-import { Typography , Box, Stack, useTheme} from '@mui/material'
-import { CoordinatesBox, GameContainer, GameSidebar, StatusBox, TimeBox, WindRose } from './styles'
+import { Typography , Box, Stack, useTheme, Button} from '@mui/material'
+import { CongratulationsTitle, CoordinatesBox, GameContainer, GameSidebar, ModalButton, StatusBox, TimeBox, WindRose } from './styles'
 import useGame from '../../src/hooks/useGame'
 import formatTime from '../../src/utils/formatTime'
 import GameMap from '../../src/components/GameMap'
 import Modal, { useModal } from '../../src/components/Modal'
 import useUser from '../../src/hooks/useUser'
+import Link from 'next/link'
 
 
 const Game: React.FC = (props) => {
@@ -21,7 +22,7 @@ const Game: React.FC = (props) => {
     const resultModal = useModal()
 
     const [ username ] = useUser()
-    const { currentCoordinate, gameStatus, startGame, currentRound, hitPoints, isGameFinished, time } = useGame()
+    const { currentCoordinate, gameStatus, startGame, currentRound, hitPoints, isGameFinished, time, restartGame } = useGame()
 
     useEffect(() => {
         startGame()
@@ -29,8 +30,10 @@ const Game: React.FC = (props) => {
 
     useEffect(() => {
         if(isGameFinished){
-            console.log('oi')
             resultModal.current?.openModal()
+        }
+        else{
+            resultModal.current?.closeModal()
         }
     }, [ isGameFinished ])
 
@@ -121,11 +124,23 @@ const Game: React.FC = (props) => {
         
             <Modal ref={resultModal} >
                 <Stack>
-                    <Typography textAlign='center'>Parabéns {username}!</Typography>
+                    <CongratulationsTitle >Parabéns {username}!</CongratulationsTitle>
                    
-                    <Typography>
-                        Você acertou {hitPoints} coordenadas geográficas em <strong>2min e 22seg</strong>. Deseja jogar mais uma partida?
+                    <Typography fontSize={20}>
+                        Você acertou <strong>{hitPoints}</strong> coordenadas geográficas em <strong>{formatTime(time, true)}</strong>. Deseja jogar mais uma partida?
                     </Typography>
+                </Stack>
+
+                <Stack direction='row' gap={4} mt={4}>
+                    <Link href='/'>
+                        <ModalButton className='go-back'>Voltar a tela inicial</ModalButton>
+                    </Link>
+
+                    <ModalButton
+                        onClick={() => restartGame()}
+                    >
+                        Jogar novamente
+                    </ModalButton>
                 </Stack>
             </Modal>
         </>
